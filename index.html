@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Leaflet-tilelayer-clip : leaflet plugin to clip tilelayer">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Leaflet-tilelayer-clip</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/frogcat/leaflet-tilelayer-clip">View on GitHub</a>
+
+          <h1 id="project_title">Leaflet-tilelayer-clip</h1>
+          <h2 id="project_tagline">leaflet plugin to clip tilelayer</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/frogcat/leaflet-tilelayer-clip/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/frogcat/leaflet-tilelayer-clip/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="leaflet-tilelayer-clip" class="anchor" href="#leaflet-tilelayer-clip" aria-hidden="true"><span class="octicon octicon-link"></span></a>leaflet-tilelayer-clip</h1>
+
+<p>leaflet 0.7.3 plugin to clip tilelayer</p>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
+
+<p><a href="http://frogcat.github.io/leaflet-tilelayer-clip/demo.html">http://frogcat.github.io/leaflet-tilelayer-clip/demo.html</a></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;title&gt;leaflet-tilelayer-clip&lt;/title&gt;
+&lt;link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" /&gt;
+&lt;script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"&gt;&lt;/script&gt;
+&lt;script src="leaflet-tilelayer-clip.js"&gt;&lt;/script&gt;
+&lt;style&gt;
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="map"&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var map = L.map("map", {
+            zoom : 16,
+            minZoom : 10,
+            center : [ 36.09894, 139.96672 ]
+        });
+
+        L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
+            attribution : "国土地理院",
+            maxNativeZoom : 18,
+            maxZoom : 20
+        }).addTo(map);
+
+        L.tileLayer.clip('http://cyberjapandata.gsi.go.jp/xyz/20150911dol2/{z}/{x}/{y}.png', {
+            attribution : "国土地理院",
+            maxNativeZoom : 18,
+            maxZoom : 20,
+            clip : L.bounds([ 0, 0 ], [ window.innerWidth * 0.5, window.innerHeight ])
+        }).addTo(map);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>View live demo 
+<a href="http://frogcat.github.io/leaflet-tilelayer-clip/simple.html">http://frogcat.github.io/leaflet-tilelayer-clip/simple.html</a></p>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clip</td>
+<td>L.Bounds</td>
+<td>([0,0],[640,480])</td>
+<td>Clip bounds</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mthod</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setClip(bounds)</td>
+<td>this</td>
+<td>Set clip bounds.</td>
+</tr>
+<tr>
+<td>update(bounds)</td>
+<td>this</td>
+<td>update view.</td>
+</tr>
+</tbody>
+</table>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Leaflet-tilelayer-clip maintained by <a href="https://github.com/frogcat">frogcat</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
