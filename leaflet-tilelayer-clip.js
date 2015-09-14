@@ -21,6 +21,7 @@
 					f.style["margin-left"] = (-p.x) + "px";
 				}
 			}
+			return this;
 		},
 		onRemove : function(map) {
 			this._map = null;
@@ -36,6 +37,7 @@
 		setClip : function(a) {
 			this.options.clip = a;
 			this.update();
+			return this;
 		}
 	});
 	L.tileLayer.clip = function(url, options) {
