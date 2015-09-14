@@ -59,6 +59,10 @@ body {
 </html>
 ```
 
+View live demo 
+<http://frogcat.github.io/leaflet-tilelayer-clip/simple.html>
+
+
 ## Options
 
 Option  | Type | Default | Description
