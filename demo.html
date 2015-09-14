@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>leaflet-tilelayer-clip</title>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="//handygeospatial.github.io/mapsites/js/leaflet-hash.js"></script>
+<script src="leaflet-tilelayer-clip.js"></script>
+<style>
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #444;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	bottom: 40px;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+#slider {
+	margin: 10px;
+}
+</style>
+<script>
+	$(function() {
+		var bg = L.tileLayer(BG_URL, {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20
+		});
+
+		var fg = L.tileLayer.clip(FG_URL, {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20,
+			clip : L.bounds([ 0, 0 ], [ window.innerWidth * 0.5, window.innerHeight ])
+		});
+
+		var map = L.map("map", L.extend({
+			zoom : 16,
+			minZoom : 10,
+			zoomControl : false,
+			attributionControl : false,
+			layers : [ bg, fg ]
+		}, L.Hash.parseHash(location.hash) || {
+			zoom : 16,
+			center : [ LAT, LNG ]
+		}));
+
+		L.control.attribution({
+			position : 'bottomright',
+			prefix : "<a target='cmp_usage' href='http://gsi-cyberjapan.github.io/cmp/op.png'>使い方</a>"
+		}).addTo(map);
+
+		L.control.zoom({
+			position : 'bottomright'
+		}).addTo(map);
+
+		new L.Hash(map);
+
+		var update = function() {
+			var e = fg.getContainer();
+			if (e && e.style && slider) {
+				var w = window.innerWidth * (parseFloat(slider.slider("value")) / 100);
+				var h = window.innerHeight;
+				fg.setClip(L.bounds([ 0, 0 ], [ w, h ]));
+				e.style["border-right"] = "1px solid lime";
+				e.style["background"] = "rgba(127,127,127,0.8)";
+				fg.update();
+			}
+		};
+
+		var slider = $("#slider").slider({
+			"value" : 50,
+			"slide" : update
+		});
+
+		map.on("resize", update);
+
+		update();
+
+	});
+</script>
+</head>
+<body>
+	<footer>
+		<div id="slider"></div>
+	</footer>
+	<div id="map"></div>
+	<script>
+		var BG_URL = 'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg';
+		var FG_URL = 'http://cyberjapandata.gsi.go.jp/xyz/20150911dol2/{z}/{x}/{y}.png';
+		var LNG = 139.96672;
+		var LAT = 36.09894;
+	</script>
+</body>
+</html>
