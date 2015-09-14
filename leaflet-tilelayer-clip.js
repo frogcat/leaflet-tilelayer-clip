@@ -6,7 +6,7 @@
 		},
 		update : function() {
 			if (!this._map)
-				return;
+				return this;
 			var e = this.getContainer();
 			var p = this._map.containerPointToLayerPoint(this.options.clip.min);
 			var q = this._map.containerPointToLayerPoint(this.options.clip.max);
