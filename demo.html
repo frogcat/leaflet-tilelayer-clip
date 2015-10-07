@@ -74,29 +74,31 @@ body {
 		});
 
 		var target = document.getElementById("divider");
-		var w = window.innerWidth / 2;
+		var ratio = 0.5;
 		var listener = function(event) {
 			switch (event.type) {
 			case "mouseup":
 			case "touchend":
 				target.removeAttribute("class");
-				break;
+				return;
 			case "resize":
-				fg.setClip(L.bounds([ 0, 0 ], [ w, window.innerHeight ]));
 				break;
 			case "mousedown":
 			case "touchstart":
 				target.setAttribute("class", "focus");
-				break;
+				return;
 			case "mousemove":
 			case "touchmove":
-				if (target.getAttribute("class") == "focus") {
-					w = (event.changedTouches ? event.changedTouches[0] : event).pageX;
-					divider.style.left = w + "px";
-					fg.setClip(L.bounds([ 0, 0 ], [ w, window.innerHeight ]));
-				}
+				if (target.getAttribute("class") != "focus")
+					return;
+				ratio = (event.changedTouches ? event.changedTouches[0] : event).pageX / window.innerWidth;
 				break;
+			default:
+				return;
 			}
+			var x = window.innerWidth * ratio;
+			divider.style.left = x + "px";
+			fg.setClip(L.bounds([ 0, 0 ], [ x, window.innerHeight ]));
 		};
 		window.addEventListener("mouseup", listener);
 		window.addEventListener("touchend", listener);
