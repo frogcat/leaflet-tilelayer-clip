@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+<title>cmp by orientation</title>
+<link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="leaflet-tilelayer-clip.js"></script>
+<style>
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#divider {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 20px;
+	margin-left: -10px;
+	cursor: ew-resize;
+	height: 100%;
+}
+
+#divider div {
+	background: lime;
+	width: 1px;
+	height: 100%;
+	margin: auto;
+}
+</style>
+
+</head>
+<body>
+	<div id="map"></div>
+	<div id="divider">
+		<div></div>
+	</div>
+	<script>
+		var bg = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20
+		});
+		var fg = L.tileLayer.clip('http://cyberjapandata.gsi.go.jp/xyz/20150911dol2/{z}/{x}/{y}.png', {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20,
+			clip : L.bounds([ 0, 0 ], [ window.innerWidth * 0.5, window.innerHeight ])
+		});
+		var map = L.map("map", {
+			zoom : 16,
+			minZoom : 10,
+			center : [ 36.09894, 139.96672 ],
+			layers : [ bg, fg ],
+			zoomControl : false
+		});
+		window.addEventListener("deviceorientation", function(event) {
+			var x = window.innerWidth * Math.max(0, Math.min(1, (0.5 + 3 * event.gamma / 180)));
+			document.getElementById("divider").style.left = x + "px";
+			fg.setClip(L.bounds([ 0, 0 ], [ x, window.innerHeight ]));
+		}, true)
+	</script>
+</body>
+</html>
